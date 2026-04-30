@@ -4,7 +4,7 @@ on: [push]
 jobs: 
   test:
     permissions:
-      id-token: write # Require write permission to fetch an OIDC token
+      id-token: write # Requires write permission to fetch an OIDC token
       contents: read
 
     runs-on: self-hosted
