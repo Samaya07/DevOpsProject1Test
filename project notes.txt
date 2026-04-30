@@ -25,7 +25,7 @@ az acr login --name crflaskdev1
 
 - Next building the docker image, tagging and pushing:
 docker build -t flask-api:dev .
-docker tag flask-api:dev flaskacrdev123.azurecr.io/flask-api:dev
+docker tag flask-api:dev crflaskdev1.azurecr.io/flask-api:dev
 docker push flaskacrdev123.azurecr.io/flask-api:dev
 
 - Now the image is pushed to ACR
@@ -40,3 +40,4 @@ Done!
 
 Just do the automation tomorrow.
 
+Azure subscription id: 1413c56f-b899-4f57-808f-629110ff9231
