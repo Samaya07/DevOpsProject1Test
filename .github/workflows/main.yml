@@ -13,11 +13,17 @@ jobs:
   test:
     runs-on: self-hosted
     steps:
-    
-    - name: Dump OIDC env vars
+    - name: Check system time (OIDC debug)
       shell: powershell
       run: |
-        Get-ChildItem Env: | Sort-Object Name
+        Write-Host "Local system time:"
+        Get-Date
+
+        Write-Host "UTC system time:"
+        Get-Date -AsUTC
+
+        Write-Host "Time zone:"
+        Get-TimeZone
 
     - name: Azure CLI Login
       uses: azure/login@v3
