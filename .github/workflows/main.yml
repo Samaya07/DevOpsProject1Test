@@ -13,17 +13,25 @@ jobs:
   test:
     runs-on: self-hosted
     steps:
-    - name: Check system time (OIDC debug)
+    - name: OIDC connectivity test (runner-level)
       shell: powershell
       run: |
-        Write-Host "Local system time:"
-        Get-Date
+        Write-Host "Testing OIDC endpoint connectivity..."
+        $headers = @{
+          Authorization = "Bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN"
+        }
 
-        Write-Host "UTC system time:"
-        Get-Date -AsUTC
-
-        Write-Host "Time zone:"
-        Get-TimeZone
+        try {
+          Invoke-RestMethod `
+            -Uri $env:ACTIONS_ID_TOKEN_REQUEST_URL `
+            -Headers $headers `
+            -Method GET
+          Write-Host "OIDC endpoint reachable"
+        }
+        catch {
+          Write-Host "OIDC endpoint FAILED"
+          Write-Host $_
+        }
 
     - name: Azure CLI Login
       uses: azure/login@v3
