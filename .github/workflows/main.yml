@@ -11,8 +11,26 @@ env:
      
 jobs: 
   test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
+    - name: Install Azure CLI
+      shell: pwsh
+      run: |
+          $az_installed = Get-Command az -ErrorAction SilentlyContinue
+          if (-not $az_installed) {
+            Write-Host "Azure CLI not found. Installing..."
+            $msiUrl = "https://aka.ms/installazurecliwindowsx64"
+            $outPath = "$env:TEMP\azure-cli.msi"
+            Invoke-WebRequest -Uri $msiUrl -OutFile $outPath
+            Start-Process msiexec.exe -Wait -ArgumentList "/I $outPath /quiet /norestart"
+            # Refresh the path for the current session
+            $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+          } else {
+            Write-Host "Azure CLI is already installed."
+          }
+
+    - name: Verify Installation
+      run: az --version
     - name: Azure CLI Login
       uses: azure/login@v3
       with:
