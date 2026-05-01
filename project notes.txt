@@ -48,3 +48,5 @@ Azure subscription id: 1413c56f-b899-4f57-808f-629110ff9231
 - Created a user assigned managed identity manually on azure, gave it a role as contributor, and then created a federated credential for it with entity as branch (main). 
 - Wrote a simple GitHub actions workflow file involving azure login to test if it works, pushed, got errors related to GitHub not having the federated credential something like that
 - Gotta fix it
+
+
