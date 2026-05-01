@@ -14,7 +14,7 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Install Azure CLI
-      shell: pwsh
+      shell: powershell
       run: |
           $az_installed = Get-Command az -ErrorAction SilentlyContinue
           if (-not $az_installed) {
