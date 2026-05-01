@@ -1,15 +1,16 @@
 name: Run Azure CLI Login with OpenID Connect
 on: [push]
 
+permissions:
+  id-token: write
+  contents: read
+
+
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
      
 jobs: 
   test:
-    permissions:
-      id-token: write # Requires write permission to fetch an OIDC token
-      contents: read
-
     runs-on: self-hosted
     steps:
     - name: Azure CLI Login
