@@ -1,5 +1,9 @@
 name: Run Azure CLI Login with OpenID Connect
-on: [push]
+on:
+  push:
+    branches:
+      - dev
+      - prod
 
 permissions:
   id-token: write
@@ -8,6 +12,7 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
      
 jobs: 
   test:
@@ -19,11 +24,27 @@ jobs:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-  
-    - name: Azure CLI script
-      uses: azure/cli@v3
-      with:
-        azcliversion: latest
-        inlineScript: |
-          az account show
+    
+    - name: Terraform Init & Apply
+      working-directory: terraform/environments/${{ env.ENV }}
+      run: |
+        terraform init
+        terraform apply -auto-approve
+
+    - name: Build & Push Docker Image
+      run: |
+        az acr login --name crflask${ENV}
+        docker build -t flask_image:${ENV} ./app
+        docker tag flask_image:${ENV} crflask${ENV}.azurecr.io/flask_image:${ENV}
+        docker push crflask${ENV}.azurecr.io/flask_image:${ENV}
+
+    - name: Deploy to AKS
+      run: |
+        az aks get-credentials \
+          --resource-group rg-${ENV} \
+          --name aks-flask${ENV} \
+          --overwrite-existing
+
+        kubectl apply -f k8s/
+
           
