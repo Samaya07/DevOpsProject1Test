@@ -23,7 +23,7 @@ jobs:
     #   working-directory: terraform/environments/{{ env.ENV }}
     #   run: |
     #     terraform init
-    #     terraform apply -auto-approvee
+    #     terraform apply -auto-approve
     - name: Checkout repository
       uses: actions/checkout@v4
 
