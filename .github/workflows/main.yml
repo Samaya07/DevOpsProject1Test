@@ -49,5 +49,7 @@ jobs:
           --overwrite-existing
 
         kubectl apply -f k8s/
+        kubectl get svc flask-app-service
+
 
           
