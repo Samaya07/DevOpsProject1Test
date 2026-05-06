@@ -24,7 +24,9 @@ jobs:
     #   run: |
     #     terraform init
     #     terraform apply -auto-appro
-
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
     - name: Azure CLI Login
       uses: azure/login@v3
       with:
