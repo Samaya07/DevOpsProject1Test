@@ -19,11 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         
-    - name: Terraform Init & Apply
-      working-directory: terraform/environments/${{ env.ENV }}
-      run: |
-        terraform init
-        terraform apply -auto-approve
+    # - name: Terraform Init & Apply
+    #   working-directory: terraform/environments/{{ env.ENV }}
+    #   run: |
+    #     terraform init
+    #     terraform apply -auto-approve
 
     - name: Azure CLI Login
       uses: azure/login@v3
