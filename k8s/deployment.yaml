@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: flask-container
-        image: crflaskdev1.azurecr.io/flask-api:dev
+        image: crflaskdev.azurecr.io/flask-api:dev
         ports:
         - containerPort: 5001
         env:
